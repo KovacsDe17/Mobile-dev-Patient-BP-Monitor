@@ -9,11 +9,92 @@
     <string name="confirmData">Elfogadom az adatvédelmi szabályzatot</string>
     <string name="id">TAJ szám</string>
     <string name="name">Név</string>
-    <string name="signInGoogle">Bejelentkezés Google fiókkal</string>
+    <string name="date">Dátum</string>
+    <string name="systolic">Szisztolés</string>
+    <string name="diastolic">Diasztolés</string>
+    <string name="pulse">Pulzus</string>
+    <string name="measure">Mérés</string>
+    <string name="timeOfDay">Napszak</string>
+    <string name="Search">Keresés</string>
+    <string name="logout">Kijelentkezés</string>
+    <string name="newMeasure">Új mérés</string>
+    <string name="settings">Beállítások</string>
+
     <string-array name="genders">
         <item>Férfi</item>
         <item>Nő</item>
         <item>Apache helikopter</item>
         <item>Egyéb</item>
     </string-array>
+
+    <string-array name="timesOfDay">
+        <item>Reggel</item>
+        <item>Dél</item>
+        <item>Este</item>
+    </string-array>
+
+    <string-array name="dates">
+        <item>2021-04-17</item>
+        <item>2021-04-17</item>
+        <item>2021-04-18</item>
+        <item>2021-04-18</item>
+        <item>2021-04-18</item>
+        <item>2021-04-19</item>
+        <item>2021-04-19</item>
+        <item>2021-04-19</item>
+        <item>2021-04-20</item>
+        <item>2021-04-20</item>
+    </string-array>
+
+    <string-array name="times">
+        <item>Reggel</item>
+        <item>Dél</item>
+        <item>Este</item>
+        <item>Reggel</item>
+        <item>Dél</item>
+        <item>Reggel</item>
+        <item>Dél</item>
+        <item>Este</item>
+        <item>Reggel</item>
+        <item>Dél</item>
+    </string-array>
+
+    <array name="sys">
+        <item>125</item>
+        <item>120</item>
+        <item>132</item>
+        <item>140</item>
+        <item>127</item>
+        <item>125</item>
+        <item>120</item>
+        <item>132</item>
+        <item>140</item>
+        <item>127</item>
+    </array>
+
+    <array name="dia">
+        <item>80</item>
+        <item>90</item>
+        <item>85</item>
+        <item>86</item>
+        <item>83</item>
+        <item>80</item>
+        <item>90</item>
+        <item>85</item>
+        <item>86</item>
+        <item>83</item>
+    </array>
+
+    <array name="pulse">
+        <item>67</item>
+        <item>72</item>
+        <item>65</item>
+        <item>66</item>
+        <item>73</item>
+        <item>67</item>
+        <item>72</item>
+        <item>65</item>
+        <item>66</item>
+        <item>73</item>
+    </array>
 </resources>
