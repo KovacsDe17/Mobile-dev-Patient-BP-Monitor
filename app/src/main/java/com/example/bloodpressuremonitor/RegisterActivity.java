@@ -1,5 +1,6 @@
 package com.example.bloodpressuremonitor;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,10 +16,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String LOG_TAG = RegisterActivity.class.getName();
     private static final String PREF_KEY = RegisterActivity.class.getPackage().toString();
-    private static final int SECRET_KEY = 42069;
 
     EditText usernameET;
     EditText emailET;
@@ -27,17 +32,13 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     CheckBox dataCB;
     Spinner genderSpinner;
 
-    SharedPreferences preferences;
+    private SharedPreferences preferences;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        int secretKey = getIntent().getIntExtra("SECRET_KEY",0);
-
-        if(secretKey != 42069)
-            finish();
 
         usernameET = findViewById(R.id.editTextNameReg);
         emailET = findViewById(R.id.editTextEmailReg);
@@ -56,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderSpinner.setAdapter(adapter);
 
+        mAuth = FirebaseAuth.getInstance();
     }
 
     public void register(View view) {
@@ -80,11 +82,23 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(this, "Beleegyezés nélkül nem lehet regisztrálni!", Toast.LENGTH_SHORT).show();
             return;
         }
+        //startDashboard();
 
         Log.i(LOG_TAG,"Regisztrált: " + username + ", email: " + email + ", jelszó: " + password);
 
-        //TODO regisztrációs cuclit megírni
-        startDashboard();
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Log.d(LOG_TAG,"User created successfully!");
+                    Toast.makeText(RegisterActivity.this, "User created successfully!", Toast.LENGTH_SHORT).show();
+                    startDashboard();
+                } else {
+                    Log.d(LOG_TAG,"User creation failed: " + task.getException().getMessage());
+                    Toast.makeText(RegisterActivity.this, "User creation failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void cancel(View view) {
@@ -93,7 +107,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
     private void startDashboard(){
         Intent intent = new Intent(this, DashboardActivity.class);
-        intent.putExtra("SECRET_KEY",SECRET_KEY);
         startActivity(intent);
     }
 

@@ -9,6 +9,7 @@
     <string name="confirmData">Elfogadom az adatvédelmi szabályzatot</string>
     <string name="id">TAJ szám</string>
     <string name="name">Név</string>
+    <string name="signInGoogle">Bejelentkezés Google fiókkal</string>
     <string-array name="genders">
         <item>Férfi</item>
         <item>Nő</item>
