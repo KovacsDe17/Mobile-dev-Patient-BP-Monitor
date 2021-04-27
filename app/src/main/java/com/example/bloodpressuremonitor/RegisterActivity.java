@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -20,27 +19,36 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String LOG_TAG = RegisterActivity.class.getName();
     private static final String PREF_KEY = RegisterActivity.class.getPackage().toString();
 
-    EditText usernameET;
+    EditText nameET;
+    EditText identifierET;
     EditText emailET;
     EditText passwordET;
     EditText passwordAgainET;
     CheckBox dataCB;
     Spinner genderSpinner;
 
+    //TODO Firestore-ral felvenni a Patient-et
+
     private SharedPreferences preferences;
     private FirebaseAuth mAuth;
+
+    private FirebaseFirestore mFirestore;
+    private CollectionReference mPatients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        usernameET = findViewById(R.id.editTextNameReg);
+        nameET = findViewById(R.id.editTextNameReg);
+        identifierET = findViewById(R.id.editTextIdReg);
         emailET = findViewById(R.id.editTextEmailReg);
         passwordET = findViewById(R.id.editTextPasswordReg);
         passwordAgainET = findViewById(R.id.editTextPasswordAgainReg);
@@ -58,15 +66,19 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         genderSpinner.setAdapter(adapter);
 
         mAuth = FirebaseAuth.getInstance();
+
+        mFirestore = FirebaseFirestore.getInstance();
+        mPatients = mFirestore.collection("Patients");
     }
 
     public void register(View view) {
-        String username = usernameET.getText().toString();
+        String name = nameET.getText().toString();
+        int id = Integer.parseInt(identifierET.getText().toString());
+        String gender = genderSpinner.getSelectedItem().toString();
         String email = emailET.getText().toString();
         String password = passwordET.getText().toString();
         String passwordAgain = passwordAgainET.getText().toString();
         boolean confirmData = dataCB.isChecked();
-        String gender = genderSpinner.getSelectedItem().toString();
 
         if(password.equals("") || password == null){
             Toast.makeText(this, "A jelszó megadása kötelező!", Toast.LENGTH_SHORT).show();
@@ -82,28 +94,45 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(this, "Beleegyezés nélkül nem lehet regisztrálni!", Toast.LENGTH_SHORT).show();
             return;
         }
-        //startDashboard();
 
-        Log.i(LOG_TAG,"Regisztrált: " + username + ", email: " + email + ", jelszó: " + password);
+        addUser(name, id, gender, email, password);
 
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Log.d(LOG_TAG,"User created successfully!");
-                    Toast.makeText(RegisterActivity.this, "User created successfully!", Toast.LENGTH_SHORT).show();
-                    startDashboard();
-                } else {
-                    Log.d(LOG_TAG,"User creation failed: " + task.getException().getMessage());
-                    Toast.makeText(RegisterActivity.this, "User creation failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        Log.i(LOG_TAG,"Regisztrált: " + name + ", email: " + email + ", jelszó: " + password);
     }
 
     public void cancel(View view) {
         finish();
     }
+
+    private void addUser(String name, int id, String gender, String email, String password){
+        mPatients.add(new Patient(
+                id,
+                name,
+                gender,
+                email
+        )).addOnSuccessListener(success -> {
+            createAuth(email,password);
+        }).addOnFailureListener(failure -> {
+            Toast.makeText(RegisterActivity.this, "Sikertelen regisztráció: " + failure.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void createAuth(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Log.d(LOG_TAG,"User created successfully!");
+                    Toast.makeText(RegisterActivity.this, "Sikeres regisztráció!", Toast.LENGTH_SHORT).show();
+                    startDashboard();
+                } else {
+                    Log.d(LOG_TAG,"User creation failed: " + task.getException().getMessage());
+                    Toast.makeText(RegisterActivity.this, "Sikertelen regisztráció: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 
     private void startDashboard(){
         Intent intent = new Intent(this, DashboardActivity.class);

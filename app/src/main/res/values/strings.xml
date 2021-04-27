@@ -19,6 +19,9 @@
     <string name="logout">Kijelentkezés</string>
     <string name="newMeasure">Új mérés</string>
     <string name="settings">Beállítások</string>
+    <string name="update">Módosítás</string>
+    <string name="delete">Törlés</string>
+    <string name="record">Felvétel</string>
 
     <string-array name="genders">
         <item>Férfi</item>

@@ -1,9 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UpdateMeasure">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/updateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/update"
+        android:textSize="24sp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="center"
+        />
+
+    <!--TODO DatePicker vagy ilyesmi ehelyett -->
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_below="@+id/updateTextView"
+        android:ems="10"
+        android:hint="@string/date"
+        android:inputType="text"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        />
+
+    <Spinner
+        android:id="@+id/timeOfDaySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_below="@+id/editTextDate"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        />
+
+
+    <EditText
+        android:id="@+id/editTextSys"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_below="@+id/timeOfDaySpinner"
+        android:ems="10"
+        android:hint="@string/systolic"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:digits="0123456789"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        />
+
+    <EditText
+        android:id="@+id/editTextDia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_below="@+id/editTextSys"
+        android:ems="10"
+        android:hint="@string/diastolic"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:digits="0123456789"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        />
+
+    <EditText
+        android:id="@+id/editTextPulse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_below="@+id/editTextDia"
+        android:ems="10"
+        android:hint="@string/pulse"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:digits="0123456789"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/linearButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/editTextPulse"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:id="@+id/updateMeasureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/update"
+            android:onClick="update"/>
+
+        <Button
+            android:id="@+id/cancelMeasureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_marginStart="@dimen/default_margin"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/deleteMeasureButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/linearButtons"
+        android:text="@string/delete"
+        android:layout_centerHorizontal="true"
+        android:onClick="delete"/>
+
+</RelativeLayout>

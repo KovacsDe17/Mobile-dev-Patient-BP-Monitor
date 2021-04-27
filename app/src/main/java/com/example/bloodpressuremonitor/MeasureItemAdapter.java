@@ -1,6 +1,7 @@
 package com.example.bloodpressuremonitor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class MeasureItemAdapter extends RecyclerView.Adapter<MeasureItemAdapter.
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
                 for(MeasureItem item : mMeasureItemsDataAll) {
-                    if(item.getDate().toString().concat(" " + item.getTimeOfDay()).toLowerCase().contains(filterPattern))
+                    if(item.getDate().concat(" " + item.getTimeOfDay()).toLowerCase().contains(filterPattern))
                         filteredList.add(item);
                 }
 
@@ -102,21 +103,21 @@ public class MeasureItemAdapter extends RecyclerView.Adapter<MeasureItemAdapter.
             systolic = itemView.findViewById(R.id.sysText);
             diastolic = itemView.findViewById(R.id.diaText);
             pulse = itemView.findViewById(R.id.pulseText);
-
-            itemView.findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO
-                }
-            });
         }
 
         public void bindTo(MeasureItem currentItem) {
-            date.setText(currentItem.getDate().toString());
+            date.setText(currentItem.getDate());
             timeOfDay.setText(currentItem.getTimeOfDay());
             systolic.setText(Integer.toString(currentItem.getSystolic()));
             diastolic.setText(Integer.toString(currentItem.getDiastolic()));
             pulse.setText(Integer.toString(currentItem.getPulse()));
+
+            itemView.findViewById(R.id.editButton).setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, UpdateMeasure.class);
+                intent.putExtra("id",currentItem._getId());
+                intent.putExtra("userId", 116755320);   //TODO hardcode-olt részt átírni
+                mContext.startActivity(intent);
+            });
         }
     }
 }
