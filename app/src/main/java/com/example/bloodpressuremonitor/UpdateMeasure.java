@@ -109,13 +109,39 @@ public class UpdateMeasure extends AppCompatActivity implements AdapterView.OnIt
     }
 
     public void create(View view){
+
+        String dateText = dateET.getText().toString();
+        String sysText = sysET.getText().toString();
+        String diaText = diaET.getText().toString();
+        String pulseText = pulseET.getText().toString();
+
+        if(dateText.equals("") || dateText == null){
+            Toast.makeText(this, "A dátum megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(sysText.equals("") || sysText == null){
+            Toast.makeText(this, "A szisztolés szám megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(diaText.equals("") || diaText == null){
+            Toast.makeText(this, "A diasztolés szám megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(pulseText.equals("") || pulseText == null){
+            Toast.makeText(this, "A pulzus megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         currentMeasure = new MeasureItem(
                 userId,
-                dateET.getText().toString(),
+                dateText,
                 timeOfDaySpinner.getSelectedItem().toString(),
-                Integer.parseInt(sysET.getText().toString()),
-                Integer.parseInt(diaET.getText().toString()),
-                Integer.parseInt(pulseET.getText().toString())
+                Integer.parseInt(sysText),
+                Integer.parseInt(diaText),
+                Integer.parseInt(pulseText)
         );
 
         mMeasures.add(currentMeasure).addOnSuccessListener(success -> {
@@ -130,12 +156,37 @@ public class UpdateMeasure extends AppCompatActivity implements AdapterView.OnIt
     public void update(View view){
         DocumentReference ref = mMeasures.document(currentMeasure._getId());
 
+        String dateText = dateET.getText().toString();
+        String sysText = sysET.getText().toString();
+        String diaText = diaET.getText().toString();
+        String pulseText = pulseET.getText().toString();
+
+        if(dateText.equals("") || dateText == null){
+            Toast.makeText(this, "A dátum megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(sysText.equals("") || sysText == null){
+            Toast.makeText(this, "A szisztolés szám megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(diaText.equals("") || diaText == null){
+            Toast.makeText(this, "A diasztolés szám megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(pulseText.equals("") || pulseText == null){
+            Toast.makeText(this, "A pulzus megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ref.update(
-                "date", dateET.getText().toString(),
+                "date", dateText,
                 "timeOfDay", timeOfDaySpinner.getSelectedItem().toString(),
-                "systolic", Integer.parseInt(sysET.getText().toString()),
-                "diastolic", Integer.parseInt(diaET.getText().toString()),
-                "pulse", Integer.parseInt(pulseET.getText().toString())
+                "systolic", Integer.parseInt(sysText),
+                "diastolic", Integer.parseInt(diaText),
+                "pulse", Integer.parseInt(pulseText)
         ).addOnSuccessListener(success -> {
             Toast.makeText(this, "Sikeres módosítás!", Toast.LENGTH_SHORT).show();
         }).addOnFailureListener(failure -> {

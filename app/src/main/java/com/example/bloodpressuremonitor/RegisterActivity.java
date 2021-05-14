@@ -73,12 +73,29 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
     public void register(View view) {
         String name = nameET.getText().toString();
-        int id = Integer.parseInt(identifierET.getText().toString());
+        String id = identifierET.getText().toString();
         String gender = genderSpinner.getSelectedItem().toString();
         String email = emailET.getText().toString();
         String password = passwordET.getText().toString();
         String passwordAgain = passwordAgainET.getText().toString();
         boolean confirmData = dataCB.isChecked();
+
+        if(name.equals("") || name == null){
+            Toast.makeText(this, "A név megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(id.equals("") || id == null){
+            Toast.makeText(this, "A TAJ szám megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int intId = Integer.parseInt(id);
+
+        if(email.equals("") || email == null){
+            Toast.makeText(this, "Az e-mail cím megadása kötelező!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if(password.equals("") || password == null){
             Toast.makeText(this, "A jelszó megadása kötelező!", Toast.LENGTH_SHORT).show();
@@ -95,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             return;
         }
 
-        addUser(name, id, gender, email, password);
+        addUser(name, intId, gender, email, password);
 
         Log.i(LOG_TAG,"Regisztrált: " + name + ", email: " + email + ", jelszó: " + password);
     }

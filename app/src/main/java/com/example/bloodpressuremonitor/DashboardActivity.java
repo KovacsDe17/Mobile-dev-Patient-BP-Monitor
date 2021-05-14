@@ -114,7 +114,6 @@ public class DashboardActivity extends AppCompatActivity {
     private void queryData(){
         mItemList.clear();
 
-        //TODO: limitet beállítani, where feltétellel TAJ számra szűrni
         mMeasures.whereEqualTo("userId",mCurrentPatient.getIdentifier())
                 .orderBy("date", Query.Direction.DESCENDING)
                 .limit(10)
@@ -125,36 +124,8 @@ public class DashboardActivity extends AppCompatActivity {
                         mItemList.add(measure);
                     }
 
-            if(mItemList.size() == 0){
-                initalizeData();
-                queryData();
-            }
-
             mAdapter.notifyDataSetChanged();
         });
-    }
-
-    private void initalizeData() {
-        String[] date = getResources().getStringArray(R.array.dates);
-        String[] timeOfDay = getResources().getStringArray(R.array.times);
-        TypedArray systolic = getResources().obtainTypedArray(R.array.sys);
-        TypedArray diastolic = getResources().obtainTypedArray(R.array.dia);
-        TypedArray pulse = getResources().obtainTypedArray(R.array.pulse);
-
-        for(int i=0; i<date.length;i++){
-            mMeasures.add(new MeasureItem(
-                    mCurrentPatient.getIdentifier(),
-                    date[i],
-                    timeOfDay[i],
-                    systolic.getInt(i,120),
-                    diastolic.getInt(i,80),
-                    pulse.getInt(i,70)
-            ));
-        }
-
-        systolic.recycle();
-        diastolic.recycle();
-        pulse.recycle();
     }
 
     @Override
